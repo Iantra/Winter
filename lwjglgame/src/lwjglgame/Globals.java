@@ -11,7 +11,9 @@ public class Globals {
 	public static int fps;
 	public static float gameTime;
 	public static float snowStrength;
+	public static float wind;
 	public static boolean paused;
+	
 	
 	public static GameObject camera;
 	public static GameObject vignette;
@@ -26,6 +28,7 @@ public class Globals {
 		fps = 120;
 		paused = false;
 		snowStrength = 5;
+		wind = 0;
 		gameTime = 60*60*6; //6 AM, in seconds
 
 		camera = new GameObject(0,0);

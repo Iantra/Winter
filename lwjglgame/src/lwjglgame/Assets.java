@@ -45,7 +45,7 @@ public class Assets {
 	        font = new TrueTypeFont(awtFont, false);
 	        
 	        wind = getAudio("res/sounds/Wind.wav");
-	        wind.playAsSoundEffect(0.8f, 1.0f, true);
+	        wind.playAsMusic(0.8f, 1.0f, true);
 	        SoundStore.get().poll(0);
 		}catch(Exception e){
 			e.printStackTrace();

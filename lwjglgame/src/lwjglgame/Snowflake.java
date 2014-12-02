@@ -11,10 +11,10 @@ public class Snowflake extends GameObject{
 	}
 	
 	public void update(double _dt){
-		setVX(((float)Math.random()-.5f)/2);
+		setVX(Globals.wind+(((float)Math.random()-.5f)/2));
 		super.update(_dt);
 		
-		if(y() > Globals.screenHeight || isColliding(Globals.character)){
+		if(y() > Globals.screenHeight){
 			resetY();
 		}
 		if(x()+Globals.camera.x() > Globals.screenWidth){
@@ -29,7 +29,6 @@ public class Snowflake extends GameObject{
 	private void resetY(){
 		float ss = 100*Globals.snowStrength;
 		if(Globals.snowflakes.size() > ss){
-			System.out.println("gonna remove some");
 			shouldRemove = true;
 		}
 		setX(getRandomX());

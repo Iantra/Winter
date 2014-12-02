@@ -11,6 +11,7 @@ import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
+import org.newdawn.slick.openal.SoundStore;
 
 /**
  * @author Iantra Solari
@@ -209,7 +210,9 @@ public class Game {
     private void update(int _dt) {
     	//For debugging, update the game time and snowflakes even if paused
     	updateGameTime(_dt);
-        Globals.snowStrength = 4f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
+        Globals.snowStrength = 3f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
+        Globals.wind = Globals.snowStrength/6f;
+        SoundStore.get().setCurrentMusicVolume((float)Math.pow(Globals.wind*2, 3f)/10f);
         Globals.updateSnowStrength();
     	//Only update game objects if the game isn't paused
     	if(!Globals.paused){
