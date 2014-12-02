@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 import java.util.Iterator;
 
@@ -140,8 +140,8 @@ public class Game {
         //Draw FPS and time over everything else
         Assets.font.drawString(10, 10, "FPS: "+Globals.fps);
         Assets.font.drawString(10, 22, "Time: "+(int)(Globals.gameTime/60/60)+":"+(int)(Globals.gameTime/60)%60);
-        //Assets.font.drawString(10, 34, "Red: "+(.2f+((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60))+1)*.4f));
-        //Assets.font.drawString(10, 46, "Blue: "+(.4f+((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-8*60*60))+1)*.3f));
+        
+        Globals.gui.render();
         
         //Draw debug screen
         if(Globals.paused){
@@ -229,6 +229,7 @@ public class Game {
 	    	
 	        Globals.character.update(_dt);
 	        Globals.background.update(_dt);
+	        Globals.gui.update(_dt);
 	        Iterator<Snowflake> iterator = Globals.snowflakes.iterator();
 	       	while(iterator.hasNext()){
 	       		Snowflake s = iterator.next();

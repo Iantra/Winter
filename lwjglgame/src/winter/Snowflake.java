@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 /**
  * @author Iantra Solari

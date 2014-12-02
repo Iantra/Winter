@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 import org.newdawn.slick.opengl.Texture;
 
@@ -7,7 +7,7 @@ public class BackgroundChunk extends GameObject{
 	private Collectible item;
 	public BackgroundChunk(int x, int y, int i, int index){
 		super(x, y, Assets.backgrounds[i]);
-		item = new Collectible(x, Globals.screenHeight*15/20, index);
+		item = new Collectible(x, Globals.screenHeight*15/20, 0);
 		this.index = index;
 	}
 	

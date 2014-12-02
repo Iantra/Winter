@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 import java.util.ArrayList;
 
@@ -7,13 +7,10 @@ import java.util.ArrayList;
  * Background class, no real reason to not make it a simple GameObject except for visual separation.
  */
 
-// CURRENT WORKING CLASS THINGY!!!! MAKE GETLOWESTINDEX AND THEN MAKE CHARACTER GENERATE TILES!
 public class Background{
 	ArrayList<BackgroundChunk> bgs = new ArrayList<BackgroundChunk>();
 	public Background(){
 		addBackground(0);
-		addBackground(1);
-		addBackground(-1);
 	}
 	
 	public void addBackground(int index){
@@ -28,14 +25,14 @@ public class Background{
 	
 	public BackgroundChunk getRightestChunk(){
 		int highestindex = 0;
-		int highestX = 0;
+		int rindex = 0;
 		for(BackgroundChunk b : bgs){
-			if(b.x() > highestX){
-				highestindex = bgs.indexOf(b);
-				highestX = (int)bgs.get(highestindex).x();
+			if(b.getIndex() > highestindex){
+				rindex = bgs.indexOf(b);
+				highestindex = b.getIndex();
 			}
 		}
-		return bgs.get(highestindex);
+		return bgs.get(rindex);
 	}
 	
 	
@@ -46,14 +43,14 @@ public class Background{
 	
 	public BackgroundChunk getLeftestChunk(){
 		int lowestindex = 0;
-		int lowestX = 0;
+		int rindex = 0;
 		for(BackgroundChunk b : bgs){
-			if(b.x() < lowestX){
-				lowestindex = bgs.indexOf(b);
-				lowestX = (int)bgs.get(lowestindex).x();
+			if(b.getIndex() < lowestindex){
+				lowestindex = b.getIndex();
+				rindex = bgs.indexOf(b);
 			}
 		}
-		return bgs.get(lowestindex);
+		return bgs.get(rindex);
 	}
 	
 	

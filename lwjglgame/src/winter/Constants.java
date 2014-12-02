@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 public class Constants {
 	public static final int WIDTH = 500;

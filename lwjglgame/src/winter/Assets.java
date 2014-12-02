@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 import java.awt.Font;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import org.newdawn.slick.util.ResourceLoader;
  */
 public class Assets {
 	public static Texture[] backgrounds;
-	public static Texture stick;
+	public static Texture[] items;
 	public static Texture walkingCharImg;
 	public static Texture standingCharImg;
 	public static Texture vignette;
@@ -26,12 +26,13 @@ public class Assets {
 	public static Texture snowImg;
 	public static Texture solid;
 	public static TrueTypeFont font;
+	public static Audio[] itemSounds;
 	public static Audio wind;
-	public static Audio wood;
 	
 	public static void load(){
 		try{
 			backgrounds = new Texture[]{getTexture("bg-1.png"), getTexture("bg-2.png")};
+			items = new Texture[]{(getTexture("stick.png"))};
 			walkingCharImg = getTexture("char_walking.png");
 			standingCharImg = getTexture("char_standing.png");
 			vignette = getTexture("vignette.png");
@@ -39,13 +40,13 @@ public class Assets {
 			cursorImg = getTexture("cursor.png");
 			snowImg = getTexture("snowflake.png");
 			solid = getTexture("solid.png");
-			stick = getTexture("stick.png");
 			
 			Font awtFont = new Font("Times New Roman", Font.BOLD, 12);
 	        font = new TrueTypeFont(awtFont, false);
 	        
+	        itemSounds = new Audio[]{getAudio("stick.wav")};
 	        wind = getAudio("Wind.wav");
-	        wood = getAudio("stick.wav");
+	        
 	        wind.playAsMusic(0.8f, 1.0f, true);
 	        SoundStore.get().poll(0);
 		}catch(Exception e){

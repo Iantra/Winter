@@ -1,4 +1,4 @@
-package lwjglgame;
+package winter;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,10 @@ import java.util.ArrayList;
  * Class to store all global variables that aren't constants.
  */
 public class Globals {
+	//Score keeping
+	public static int sticks;
+	
+	//Miscellaneous game info
 	public static int screenWidth, screenHeight;
 	public static int fps;
 	public static float gameTime;
@@ -15,22 +19,26 @@ public class Globals {
 	public static boolean paused;
 	
 	
+	//Game objects
 	public static GameObject camera;
 	public static GameObject vignette;
 	public static Background background;
 	public static Character character;
 	public static ArrayList<Snowflake> snowflakes;
 	public static ScreenFade sFade;
+	public static GUI gui;
 	
 	
 	//Simple class that just initializes all the global variables.
 	public static void load(){
+		sticks = 0;
+		
 		fps = 120;
 		paused = false;
 		snowStrength = 5;
 		wind = 0;
 		gameTime = 60*60*6; //6 AM, in seconds
-
+		
 		camera = new GameObject(0,0);
 		vignette = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, Assets.vignette);
 		background = new Background();
@@ -42,6 +50,10 @@ public class Globals {
 		}
 		sFade = new ScreenFade(0, 0, 0);
 		sFade.fadeOut(.02f);
+		
+		
+		
+		gui = new GUI();
 	}
 	
 	//Public snowflake initialization so I can re-initialize them when changing the amount of snow
