@@ -23,7 +23,7 @@ public class Character extends GameObject{
 	
 	public void update(float _dt){
 		if(y() < Globals.screenHeight*13/20-0.2f){
-			setVY(vY()+0.2f);
+			setVY(vY()+_dt/40f);
 		}
 		if(isRunning()) setVX(vX()*2);
 		super.update(_dt);

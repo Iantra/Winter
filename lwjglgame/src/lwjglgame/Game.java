@@ -1,7 +1,5 @@
 package lwjglgame;
 
-import java.awt.event.WindowEvent;
-import java.awt.image.SinglePixelPackedSampleModel;
 import java.util.Iterator;
 
 import org.lwjgl.LWJGLException;
@@ -43,7 +41,7 @@ public class Game {
         //While the window isn't closed, loop through the main game loop.
         while (!Display.isCloseRequested()) {
         	//Sync the display, that's all LWJGL and I have no idea how it works.
-            Display.sync(120);
+            Display.sync(60);
             
             //All my beautiful, hand-made update methods - Keys first, then game objects, then fps, and finally render everything.
             updateKeys();
@@ -224,10 +222,13 @@ public class Game {
     		
 	        //Update stuff
 	    	Globals.sFade.update(_dt);
+	    	
 	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()*2);
 	    	Globals.camera.update(_dt);
 	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()/2);
+	    	
 	        Globals.character.update(_dt);
+	        Globals.background.update(_dt);
 	        Iterator<Snowflake> iterator = Globals.snowflakes.iterator();
 	       	while(iterator.hasNext()){
 	       		Snowflake s = iterator.next();

@@ -48,7 +48,6 @@ public class Globals {
 	public static void updateSnowStrength(){
 		float ss = 100*Globals.snowStrength;
 		if(snowflakes.size() < ss){
-			System.out.println("added snowflakes");
 			for(int i = snowflakes.size(); i < ss; i++){
 				snowflakes.add(new Snowflake(Snowflake.getRandomX(), (float)(Math.random()*-Globals.screenHeight/3)));
 				snowflakes.get(i).setVY(.2f+(float)Math.random()/4);

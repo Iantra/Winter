@@ -58,10 +58,15 @@ public class Background{
 	
 	
 	
-	
 	public void render(){
 		for(BackgroundChunk b : bgs){
 			b.render();
+		}
+	}
+	
+	public void update(float _dt){
+		for(BackgroundChunk b : bgs){
+			b.update(_dt);
 		}
 	}
 }
