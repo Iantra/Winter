@@ -8,5 +8,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/isolarir2371/Downloads/lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ian/Java libraries/lwjgl-2.9.1/jar/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Ian/Java libraries/lwjgl-2.9.1/native/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Ian/Java libraries/slick/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
