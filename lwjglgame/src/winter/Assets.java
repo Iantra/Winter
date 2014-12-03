@@ -22,7 +22,6 @@ public class Assets {
 	public static Texture standingCharImg;
 	public static Texture vignette;
 	public static Texture emptyImg;
-	public static Texture cursorImg;
 	public static Texture snowImg;
 	public static Texture solid;
 	public static TrueTypeFont font;
@@ -37,7 +36,6 @@ public class Assets {
 			standingCharImg = getTexture("char_standing.png");
 			vignette = getTexture("vignette.png");
 			emptyImg = getTexture("empty.png");
-			cursorImg = getTexture("cursor.png");
 			snowImg = getTexture("snowflake.png");
 			solid = getTexture("solid.png");
 			

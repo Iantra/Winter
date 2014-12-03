@@ -1,7 +1,5 @@
 package winter;
 
-import java.util.ArrayList;
-
 public class GUI {
 	private GUIObject[] guiItems;
 	public GUI(){

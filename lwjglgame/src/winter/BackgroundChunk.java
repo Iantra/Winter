@@ -1,7 +1,5 @@
 package winter;
 
-import org.newdawn.slick.opengl.Texture;
-
 /**
  * @author Iantra Solari
  * Background chunk. Deals with the items inside it.
