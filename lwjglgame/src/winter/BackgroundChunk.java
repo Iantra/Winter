@@ -2,6 +2,10 @@ package winter;
 
 import org.newdawn.slick.opengl.Texture;
 
+/**
+ * @author Iantra Solari
+ * Background chunk. Deals with the items inside it.
+ */
 public class BackgroundChunk extends GameObject{
 	private final int index;
 	private Collectible item;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Iantra Solari
- * Background class, no real reason to not make it a simple GameObject except for visual separation.
+ * Background class, manages background chunks and stuff.
  */
 
 public class Background{

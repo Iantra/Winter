@@ -17,18 +17,19 @@ public class Character extends GameObject{
 	private int frame = 1;
 	private int dir = 1;
 	public Character(){
-		super(Constants.WIDTH-145, Globals.screenHeight/2,  Assets.standingCharImg.getImageWidth()/6, Assets.standingCharImg.getImageWidth()/6, Assets.standingCharImg);
+		super(Constants.WIDTH-145, Globals.screenHeight/2,  Assets.walkingCharImg.getImageWidth()/10, Assets.walkingCharImg.getImageHeight(), Assets.walkingCharImg);
+		System.out.println(width());
 
 	}
 	
 	public void update(float _dt){
-		if(y() < Globals.screenHeight*13/20-0.2f){
+		if(y() < Globals.screenHeight*12/20-0.2f){
 			setVY(vY()+_dt/40f);
 		}
 		if(isRunning()) setVX(vX()*2);
 		super.update(_dt);
 		if(isRunning()) setVX(vX()/2);
-		while(y() > Globals.screenHeight*13/20){
+		while(y() > Globals.screenHeight*12/20){
 			setVY(0);
 			setY(y()-0.1f);
 			isJumping = false;
@@ -37,13 +38,13 @@ public class Character extends GameObject{
 		
 		if(vX() != 0){
 			setTexture(walkingTexture);
-			if(frameTime >= 133){
+			if(frameTime >= 100){
 				frame += 1;
 				frameTime = 0;
-				if(frame > 6){
+				if(frame > 10){
 					frame = 1;
 				}
-				if(dir == -1 && frame > 5){
+				if(dir == -1 && frame > 9){
 					frame = 0;
 				}
 			}
@@ -65,7 +66,7 @@ public class Character extends GameObject{
 	}
 	
 	public void render(){
-		float xs = ((float)texture().getImageWidth()/(float)texture().getTextureWidth())/6;
+		float xs = ((float)texture().getImageWidth()/(float)texture().getTextureWidth())/10;
 		float ys = (float)texture().getImageHeight()/(float)texture().getTextureHeight();
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
