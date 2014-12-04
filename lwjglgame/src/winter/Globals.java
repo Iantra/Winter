@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Globals {
 	//Score keeping
-	public static int sticks;
+	public static int[] items;
 	
 	//Miscellaneous game info
 	public static int screenWidth, screenHeight;
@@ -31,7 +31,7 @@ public class Globals {
 	
 	//Simple class that just initializes all the global variables.
 	public static void load(){
-		sticks = 0;
+		items = new int[]{0,2,0,0};
 		
 		fps = 120;
 		paused = false;

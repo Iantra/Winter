@@ -31,7 +31,7 @@ public class Assets {
 	public static void load(){
 		try{
 			backgrounds = new Texture[]{getTexture("bg-1.png"), getTexture("bg-2.png")};
-			items = new Texture[]{(getTexture("stick.png"))};
+			items = new Texture[]{ getTexture("stick.png"), getTexture("rock.png"), getTexture("fire.png"), getTexture("axe.png")};
 			walkingCharImg = getTexture("char_walking.png");
 			standingCharImg = getTexture("char_standing.png");
 			vignette = getTexture("vignette.png");
@@ -42,7 +42,7 @@ public class Assets {
 			Font awtFont = new Font("Times New Roman", Font.BOLD, 12);
 	        font = new TrueTypeFont(awtFont, false);
 	        
-	        itemSounds = new Audio[]{getAudio("stick.wav")};
+	        itemSounds = new Audio[]{getAudio("Stick.wav"), getAudio("Rock.wav"), getAudio("Stick.wav"), getAudio("Stick.wav")};
 	        wind = getAudio("Wind.wav");
 	        
 	        wind.playAsMusic(0.8f, 1.0f, true);

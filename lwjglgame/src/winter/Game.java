@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -23,6 +24,7 @@ public class Game {
 	
 	//Some variables to keep track of game speed.
 	private long lastFrame, lastFPS;
+	private boolean wasMousePressed = false;
 	private int fps;
 	
 	public static void main(String[] args){
@@ -154,6 +156,17 @@ public class Game {
     
     //My method for checking for key events. Again, some stuff is from the internet and some stuff is hand-made and beautiful.
     private void updateKeys(){
+    	//Mouse check in the key events because why not
+    	if(!Mouse.isButtonDown(0) && wasMousePressed){
+    		wasMousePressed = false;
+    		Globals.gui.click();
+    	}
+    	if(Mouse.isButtonDown(0)){
+    		wasMousePressed = true;
+    	}
+    	
+    	
+    	
     	//You can figure it all out. I trust you. You got this.
     	while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) {
@@ -209,7 +222,7 @@ public class Game {
     	//For debugging, update the game time and snowflakes even if paused
     	updateGameTime(_dt);
         Globals.snowStrength = 3f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
-        Globals.wind = Globals.snowStrength/6f;
+        Globals.wind = -Globals.snowStrength/6f;
         SoundStore.get().setCurrentMusicVolume((float)Math.pow(Globals.wind*2, 3f)/10f);
         Globals.updateSnowStrength();
     	//Only update game objects if the game isn't paused
