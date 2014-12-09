@@ -22,6 +22,7 @@ public class Globals {
 	//Game objects
 	public static GameObject camera;
 	public static GameObject vignette;
+	public static GameObject coldFilter;
 	public static Background background;
 	public static Character character;
 	public static ArrayList<Snowflake> snowflakes;
@@ -41,6 +42,7 @@ public class Globals {
 		
 		camera = new GameObject(0,0);
 		vignette = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, Assets.vignette);
+		coldFilter = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, Assets.coldFilter);
 		background = new Background();
 		character = new Character();
 		snowflakes = new ArrayList<Snowflake>();

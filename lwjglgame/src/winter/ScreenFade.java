@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL12;
  * Screen fading filter class. Pretty complex and stuff (not really).
  */
 public class ScreenFade extends GameObject {
-	private float r, g, b, a;
+	private float r, g, b;
 	private int fadeType;
 	private float fSpeed;
 	boolean isVisible;
@@ -17,7 +17,7 @@ public class ScreenFade extends GameObject {
 		r = red;
 		g = green;
 		b = blue;
-		a = 1f;
+		setAlpha(1f);
 		isVisible = true;
 		fadeType = 0;
 	}
@@ -32,13 +32,13 @@ public class ScreenFade extends GameObject {
 	}
 	public void update(float _dt){
 		switch (fadeType){
-		case 1: if(a < 1)a+= fSpeed*_dt;
+		case 1: if(alpha() < 1)setAlpha(alpha() + fSpeed*_dt);
 				break;
-		case 2: if(a > 0)a-= fSpeed*_dt;
+		case 2: if(alpha() > 0)setAlpha(alpha() - fSpeed*_dt);
 				break;
 		default: break;
 		}
-		if(a <= 0){
+		if(alpha() <= 0){
 			isVisible = false;
 		}else{
 			isVisible = true;
@@ -56,7 +56,7 @@ public class ScreenFade extends GameObject {
 		if(isVisible){
 			Assets.solid.bind();
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-			GL11.glColor4f(r, g, b, a);
+			GL11.glColor4f(r, g, b, alpha());
 			GL11.glBegin(GL11.GL_QUADS);
 				GL11.glTexCoord2f(0, 1);
 				GL11.glVertex2f(0,Globals.screenHeight);

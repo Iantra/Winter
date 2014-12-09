@@ -21,6 +21,7 @@ public class Assets {
 	public static Texture walkingCharImg;
 	public static Texture standingCharImg;
 	public static Texture vignette;
+	public static Texture coldFilter;
 	public static Texture emptyImg;
 	public static Texture snowImg;
 	public static Texture solid;
@@ -35,6 +36,7 @@ public class Assets {
 			walkingCharImg = getTexture("char_walking.png");
 			standingCharImg = getTexture("char_standing.png");
 			vignette = getTexture("vignette.png");
+			coldFilter = getTexture("coldFilter.png");
 			emptyImg = getTexture("empty.png");
 			snowImg = getTexture("snowflake.png");
 			solid = getTexture("solid.png");

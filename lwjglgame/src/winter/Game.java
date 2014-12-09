@@ -136,8 +136,9 @@ public class Game {
         //Move scene back to default position
         GL11.glTranslatef(-Globals.camera.x(), -Globals.camera.y(), 0);
         
-        //Draw vignette over scene
+        //Draw vignette and cold filter over scene
         Globals.vignette.render();
+        Globals.coldFilter.render();
         
         //Draw FPS and time over everything else
         Assets.font.drawString(10, 10, "FPS: "+Globals.fps);
@@ -223,6 +224,8 @@ public class Game {
     	updateGameTime(_dt);
         Globals.snowStrength = 3f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
         Globals.wind = -Globals.snowStrength/6f;
+        Globals.character.setWarmth(1);//Globals.character.warmth() - (Globals.snowStrength*2-17)*_dt);
+        Globals.coldFilter.setAlpha(1-Globals.character.warmth());
         SoundStore.get().setCurrentMusicVolume((float)Math.pow(Globals.wind*2, 3f)/10f);
         Globals.updateSnowStrength();
     	//Only update game objects if the game isn't paused

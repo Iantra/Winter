@@ -12,6 +12,7 @@ public class Character extends GameObject{
 	private Texture walkingTexture = Assets.walkingCharImg;
 	private Texture standingTexture = Assets.standingCharImg;
 	private float frameTime = 0;
+	private float warmth, energy, health;
 	private boolean isJumping = true;
 	private boolean isRunning = false;
 	private int frame = 1;
@@ -103,6 +104,22 @@ public class Character extends GameObject{
 	
 	public void setRunning(boolean r){
 		isRunning = r;
+	}
+	
+	public float warmth(){
+		return warmth;
+	}
+	
+	public float energy(){
+		return energy;
+	}
+	
+	public float health(){
+		return health;
+	}
+	
+	public void setWarmth(float w){
+		warmth = w;
 	}
 	
 }
