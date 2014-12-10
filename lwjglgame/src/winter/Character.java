@@ -12,7 +12,7 @@ public class Character extends GameObject{
 	private Texture walkingTexture = Assets.walkingCharImg;
 	private Texture standingTexture = Assets.standingCharImg;
 	private float frameTime = 0;
-	private float warmth, energy, health;
+	private float warmth = 1, energy = 1, health = 1;
 	private boolean isJumping = true;
 	private boolean isRunning = false;
 	private int frame = 1;
@@ -27,9 +27,21 @@ public class Character extends GameObject{
 		if(y() < Globals.screenHeight*12/20-0.2f){
 			setVY(vY()+_dt/40f);
 		}
-		if(isRunning()) setVX(vX()*2);
+		float e = energy+1;
+		if(isRunning()){
+			setVX(vX()*(e));
+			warmth += (1-energy)/100000f*_dt;
+			if(energy > 0)
+			energy -= _dt/10000f;
+		}else{
+			if(energy < 1)
+			energy += _dt/15000f;
+		}
 		super.update(_dt);
-		if(isRunning()) setVX(vX()/2);
+		if(isRunning()) setVX(vX()/(e));
+		warmth -= (1-energy)/100000f*_dt;
+		if(warmth <= 0)
+			health -= _dt/8000f;
 		while(y() > Globals.screenHeight*12/20){
 			setVY(0);
 			setY(y()-0.1f);

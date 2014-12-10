@@ -1,7 +1,10 @@
 package winter;
 
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.util.Iterator;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -126,6 +129,9 @@ public class Game {
         	GL11.glColor3f(.2f, .2f, .2f);
         }
         
+        
+        
+        
         //Draw stuff
         Globals.background.render();          
         Globals.character.render();
@@ -224,7 +230,13 @@ public class Game {
     	updateGameTime(_dt);
         Globals.snowStrength = 3f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
         Globals.wind = -Globals.snowStrength/6f;
-        Globals.character.setWarmth(1);//Globals.character.warmth() - (Globals.snowStrength*2-17)*_dt);
+        if(Globals.character.warmth() >= 0.1)
+        	if(Globals.character.warmth() <= 1)
+        		Globals.character.setWarmth(Globals.character.warmth() - (Globals.snowStrength-3f)*_dt/100000f);
+        	else
+        		Globals.character.setWarmth(1);
+        else
+        	Globals.character.setWarmth(0.2f);
         Globals.coldFilter.setAlpha(1-Globals.character.warmth());
         SoundStore.get().setCurrentMusicVolume((float)Math.pow(Globals.wind*2, 3f)/10f);
         Globals.updateSnowStrength();
@@ -232,16 +244,16 @@ public class Game {
     	if(!Globals.paused){
     		 
     		//Move camera according to character position
-    		if(Globals.character.vX() == -1 && Globals.character.x()+Globals.camera.x() < Globals.screenWidth/2-64) Globals.camera.setVX(1);
- 			else if(Globals.character.vX() == 1 && Globals.character.x()+Globals.camera.x() > Globals.screenWidth/2+64) Globals.camera.setVX(-1);
+    		if(Globals.character.vX() <= -1 && Globals.character.x()+Globals.camera.x() < Globals.screenWidth/2-64) Globals.camera.setVX(1);
+ 			else if(Globals.character.vX() >= 1 && Globals.character.x()+Globals.camera.x() > Globals.screenWidth/2+64) Globals.camera.setVX(-1);
  			else Globals.camera.setVX(0);
     		
 	        //Update stuff
 	    	Globals.sFade.update(_dt);
 	    	
-	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()*2);
+	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()*(Globals.character.energy()+1));
 	    	Globals.camera.update(_dt);
-	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()/2);
+	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()/(Globals.character.energy()+1));
 	    	
 	        Globals.character.update(_dt);
 	        Globals.background.update(_dt);
