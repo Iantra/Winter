@@ -7,8 +7,12 @@ import java.util.ArrayList;
  * Class to store all global variables that aren't constants.
  */
 public class Globals {
-	//Score keeping
+	//Inventory keeping
 	public static int[] items;
+	public static ArrayList<GameObject> fires;
+	
+	//Message displays
+	public static TextObject to;
 	
 	//Miscellaneous game info
 	public static int screenWidth, screenHeight;
@@ -16,13 +20,23 @@ public class Globals {
 	public static float gameTime;
 	public static float snowStrength;
 	public static float wind;
-	public static boolean paused;
+	public static boolean gameOver;
 	
+	//User Interface
+	public static boolean paused;
+	public static boolean debug;
+	public static int guiState;
+	public static float r, g, b;
+	public static int tutStep;
+	
+	//Key tracking
+	public static boolean wasKeyPressed;
 	
 	//Game objects
 	public static GameObject camera;
 	public static GameObject vignette;
 	public static GameObject coldFilter;
+	public static Foreground foreground;
 	public static Background background;
 	public static Character character;
 	public static ArrayList<Snowflake> snowflakes;
@@ -32,17 +46,31 @@ public class Globals {
 	
 	//Simple class that just initializes all the global variables.
 	public static void load(){
-		items = new int[]{0,2,0,0};
+		items = new int[]{10,10,0,0,0};
+		fires = new ArrayList<GameObject>();
+		
+		to = new TextObject( 4, "Wake up.");
 		
 		fps = 120;
-		paused = false;
 		snowStrength = 5;
 		wind = 0;
 		gameTime = 60*60*6; //6 AM, in seconds
+		gameOver = false;
+		
+		paused = false;
+		debug = false;
+		guiState = 0;
+		r = 0;
+		g = 0;
+		b = 0;
+		tutStep = 0;
+		
+		wasKeyPressed = false;
 		
 		camera = new GameObject(0,0);
 		vignette = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, Assets.vignette);
 		coldFilter = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, Assets.coldFilter);
+		foreground = new Foreground();
 		background = new Background();
 		character = new Character();
 		snowflakes = new ArrayList<Snowflake>();
@@ -51,7 +79,6 @@ public class Globals {
 			snowflakes.get(i).setVY(.2f+(float)Math.random()/4);
 		}
 		sFade = new ScreenFade(0, 0, 0);
-		sFade.fadeOut(.02f);
 		
 		
 		

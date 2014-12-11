@@ -16,7 +16,7 @@ public class Character extends GameObject{
 	private boolean isJumping = true;
 	private boolean isRunning = false;
 	private int frame = 1;
-	private int dir = 1;
+	private int dir = -1;
 	public Character(){
 		super(Constants.WIDTH-145, Globals.screenHeight/2,  Assets.walkingCharImg.getImageWidth()/10, Assets.walkingCharImg.getImageHeight(), Assets.walkingCharImg);
 		System.out.println(width());
@@ -24,6 +24,7 @@ public class Character extends GameObject{
 	}
 	
 	public void update(float _dt){
+		System.out.println(warmth);
 		if(y() < Globals.screenHeight*12/20-0.2f){
 			setVY(vY()+_dt/40f);
 		}
@@ -40,8 +41,16 @@ public class Character extends GameObject{
 		super.update(_dt);
 		if(isRunning()) setVX(vX()/(e));
 		warmth -= (1-energy)/100000f*_dt;
-		if(warmth <= 0)
-			health -= _dt/8000f;
+		for(GameObject f : Globals.fires){
+			if(isColliding(f)){
+				warmth = 1;
+			}
+		}
+		if(warmth <= 0){
+			Globals.gameOver = true;
+			Globals.sFade.fadeIn(.2f);
+			Globals.to = new TextObject(5, new String[]{"You died.", "What a shame.", "Goodbye."});
+		}
 		while(y() > Globals.screenHeight*12/20){
 			setVY(0);
 			setY(y()-0.1f);
@@ -70,11 +79,11 @@ public class Character extends GameObject{
 			setTexture(standingTexture);
 			frame = (dir == 1) ? 1 : 0;
 		}
-		if(x() > Globals.background.getRightestChunk().x()){
-			Globals.background.addBackgroundRight();
+		if(x() > Globals.foreground.getRightestChunk().x()){
+			Globals.foreground.addForegroundRight();
 		}
-		if(x() < Globals.background.getLeftestChunk().x()){
-			Globals.background.addBackgroundLeft();
+		if(x() < Globals.foreground.getLeftestChunk().x()){
+			Globals.foreground.addForegroundLeft();
 		}
 	}
 	

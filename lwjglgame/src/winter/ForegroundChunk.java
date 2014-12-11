@@ -4,11 +4,11 @@ package winter;
  * @author Iantra Solari
  * Background chunk. Deals with the items inside it.
  */
-public class BackgroundChunk extends GameObject{
+public class ForegroundChunk extends GameObject{
 	private final int index;
 	private Collectible item;
-	public BackgroundChunk(int x, int y, int i, int index){
-		super(x, y, Assets.backgrounds[i]);
+	public ForegroundChunk(int x, int y, int i, int index){
+		super(x, y, Assets.foregrounds[i]);
 		item = new Collectible(x, Globals.screenHeight*15/20, (int)(Math.random()*2));
 		this.index = index;
 	}

@@ -14,7 +14,7 @@ public class Snowflake extends GameObject{
 		setVX(Globals.wind+(((float)Math.random()-.5f)/2));
 		super.update(_dt);
 		
-		if(y() > Globals.screenHeight || isColliding(Globals.character)){
+		if(y() > Globals.screenHeight){
 			resetY();
 		}
 		if(x()+Globals.camera.x() > Globals.screenWidth){

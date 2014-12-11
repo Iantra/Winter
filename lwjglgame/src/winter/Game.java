@@ -1,10 +1,6 @@
 package winter;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.util.Iterator;
-
-import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -51,6 +47,7 @@ public class Game {
             //All my beautiful, hand-made update methods - Keys first, then game objects, then fps, and finally render everything.
             updateKeys();
             update(getDelta());
+            updateTutorial();
             updateFPS();
             render();
             
@@ -119,21 +116,30 @@ public class Game {
         if(!Globals.paused){
         	
         	//Calculate tone from game time
-        	float r, g, b;
-        	r = .2f+((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60))+1)*.4f;
-        	g = .2f+((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60))+1)*.3f;
-        	b = .3f+((float)Math.pow(Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60)),3)+1)*.3f;
-        	GL11.glColor3f(r, g, b);
-        	
+        	float rr = .2f+((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60))+1)*.4f;
+        	float gr = .2f+((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60))+1)*.3f;
+        	float br = .3f+((float)Math.pow(Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime-7*60*60)),3)+1)*.3f;
+        	Globals.r = rr + (Globals.r - rr)/1.4f;
+        	Globals.g = gr + (Globals.g - gr)/1.4f;
+        	Globals.b = br + (Globals.b - br)/1.4f;
         }else{
-        	GL11.glColor3f(.2f, .2f, .2f);
+        	Globals.r = .2f+ (Globals.r - .2f)/1.4f;
+        	Globals.g = .2f+ (Globals.g - .2f)/1.4f;
+        	Globals.b = .2f+ (Globals.b - .2f)/1.4f;
         }
+        
+        GL11.glColor3f(Globals.r, Globals.g, Globals.b);
         
         
         
         
         //Draw stuff
-        Globals.background.render();          
+        Globals.background.render();
+        Globals.foreground.render();  
+        for(GameObject f : Globals.fires){
+        	f.setTexture(Assets.fires[(int)(Math.random()*3)]);
+        	f.render();
+        }
         Globals.character.render();
         for(Snowflake s : Globals.snowflakes){
 			s.render();
@@ -146,20 +152,59 @@ public class Game {
         Globals.vignette.render();
         Globals.coldFilter.render();
         
-        //Draw FPS and time over everything else
-        Assets.font.drawString(10, 10, "FPS: "+Globals.fps);
-        Assets.font.drawString(10, 22, "Time: "+(int)(Globals.gameTime/60/60)+":"+(int)(Globals.gameTime/60)%60);
-        
+        //Call base GUI draw method, which then picks which parts of the GUI to render by itself
         Globals.gui.render();
         
-        //Draw debug screen
-        if(Globals.paused){
-        	Assets.font.drawString(10, 34, "Snow strength: "+Globals.snowStrength);
-        	Assets.font.drawString(10, 46, "Snowflake #: "+Globals.snowflakes.size());
+        if(Globals.debug){
+	        //Draw FPS and time over everything else
+	        Assets.guiFont.drawString(10, 10, "FPS: "+Globals.fps);
+	        Assets.guiFont.drawString(10, 22, "Time: "+(int)(Globals.gameTime/60/60)+":"+(int)(Globals.gameTime/60)%60);
+
+	        //Draw debug screen
+        	Assets.guiFont.drawString(10, 34, "Snow strength: "+Globals.snowStrength);
+        	Assets.guiFont.drawString(10, 46, "Snowflake #: "+Globals.snowflakes.size());
         }
         //If there's a screen fade, draw it
         Globals.sFade.render();
+        
+        //Render text cues on top of everything, if done proceed to next step in tutorial.
+        if(!Globals.to.isDone())
+        	Globals.to.render();
+        else if(Globals.tutStep == 0){
+        	Globals.tutStep++;
+        	Globals.sFade.fadeOut(0.05f);
+        }
+        
     }
+    
+    //Little method for updating tutorial stages.
+    private void updateTutorial(){
+    	if(Globals.tutStep == 1){
+			for(int i : Globals.items){
+				if(i > 0){
+					Globals.tutStep++;
+					Globals.paused = true;
+					Globals.to = new TextObject(3, new String[]{"You picked up an item.", "Good job.", "You can look at it if you press 'i'."});
+				}
+			}
+		}
+    	
+    	if(Globals.tutStep == 2){
+			if(Globals.gameTime/60/60 > 19.5){
+					Globals.tutStep++;
+					Globals.paused = true;
+					Globals.to = new TextObject(3, new String[]{"It's getting late.", "And cold.", "You can start a fire if you press 'f'."});
+			}
+		}
+    	
+    	if(Globals.gameOver){
+    		Globals.paused = true;
+    		if( Globals.to.isDone()){
+    			System.exit(42);
+    		}
+    	}
+    }
+    
     
     //My method for checking for key events. Again, some stuff is from the internet and some stuff is hand-made and beautiful.
     private void updateKeys(){
@@ -177,7 +222,7 @@ public class Game {
     	//You can figure it all out. I trust you. You got this.
     	while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) {
-                if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_A) {
                 	if(!Globals.paused){
                 		Globals.character.setVX(-1);
                 	}else if(Globals.snowStrength > 0){
@@ -185,7 +230,7 @@ public class Game {
                 		Globals.updateSnowStrength();
                 	}
                 }
-                if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_D) {
                 	if(!Globals.paused){
                 		Globals.character.setVX(1);
                 	}else{
@@ -193,7 +238,7 @@ public class Game {
 						Globals.updateSnowStrength();
                 	}
                 }
-                if (Keyboard.getEventKey() == Keyboard.KEY_UP && !Globals.character.isJumping()) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_W && !Globals.character.isJumping()) {
                 	Globals.character.setVY(-7);
                 	Globals.character.setJumping(true);
                 }
@@ -202,11 +247,11 @@ public class Game {
                 }
             }
             else {
-                if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Globals.character.vX() == -1) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_A && Globals.character.vX() == -1) {
                 	Globals.character.setVX(0);
                 	Globals.camera.setVX(0);
                 }
-                if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Globals.character.vX() == 1) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_D && Globals.character.vX() == 1) {
                 	Globals.character.setVX(0);
                 	Globals.camera.setVX(0);
                 }
@@ -214,11 +259,46 @@ public class Game {
                 	Globals.character.setRunning(false);
                 }
                 
-                if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
+                if(Keyboard.getEventKey() == Keyboard.KEY_RBRACKET){
+            		Globals.debug = !Globals.debug;
+                }
+                
+                if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE && !Globals.gameOver){
             		Globals.paused = !Globals.paused;
                 }
+                
                 if(Keyboard.getEventKey() == Keyboard.KEY_Q && Globals.paused){
                 	terminate();
+                }
+                
+                if(Keyboard.getEventKey() == Keyboard.KEY_I){
+                	if(Globals.guiState == 1)
+                		Globals.guiState = 0;
+                	else
+                		Globals.guiState = 1;
+                		
+                }
+                
+                if(Keyboard.getEventKey() == Keyboard.KEY_F){
+                	if(Globals.guiState == 2){
+                		Globals.paused = false;
+                		Globals.guiState = 0;
+                	}else{
+                		Globals.paused = true;
+                		Globals.guiState = 2;
+                	}
+                		
+                }
+                
+                if(Keyboard.getEventKey() == Keyboard.KEY_R){
+                	if(Globals.guiState == 3){
+                		Globals.paused = false;
+                		Globals.guiState = 0;
+                	}else{
+                		Globals.paused = true;
+                		Globals.guiState = 3;
+                	}
+                		
                 }
             }
         }
@@ -226,29 +306,28 @@ public class Game {
     
     //My own little update method. It's beautiful and perfect.
     private void update(int _dt) {
-    	//For debugging, update the game time and snowflakes even if paused
-    	updateGameTime(_dt);
-        Globals.snowStrength = 3f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
-        Globals.wind = -Globals.snowStrength/6f;
-        if(Globals.character.warmth() >= 0.1)
-        	if(Globals.character.warmth() <= 1)
-        		Globals.character.setWarmth(Globals.character.warmth() - (Globals.snowStrength-3f)*_dt/100000f);
-        	else
-        		Globals.character.setWarmth(1);
-        else
-        	Globals.character.setWarmth(0.2f);
-        Globals.coldFilter.setAlpha(1-Globals.character.warmth());
-        SoundStore.get().setCurrentMusicVolume((float)Math.pow(Globals.wind*2, 3f)/10f);
-        Globals.updateSnowStrength();
-    	//Only update game objects if the game isn't paused
+    	//Only update game if it isn't paused
     	if(!Globals.paused){
+    		
+    		//Update game time keeping variables along with environmental changes
+    		updateGameTime(_dt);
+            Globals.snowStrength = 3f*((float)Math.sin((2*Math.PI)/Constants.SECONDS_IN_DAY*(Globals.gameTime+60*60*6))+1);
+            Globals.wind = -Globals.snowStrength/6f;
+            if(Globals.character.warmth() >= 0.05)
+            	if(Globals.character.warmth() <= 1)
+            		Globals.character.setWarmth(Globals.character.warmth() - (Globals.snowStrength-3f)*_dt/100000f);
+            	else
+            		Globals.character.setWarmth(1);
+            Globals.coldFilter.setAlpha(1-Globals.character.warmth());
+            SoundStore.get().setCurrentMusicVolume((float)Math.pow(Globals.wind*2, 3f)/10f);
+            Globals.updateSnowStrength();
     		 
     		//Move camera according to character position
     		if(Globals.character.vX() <= -1 && Globals.character.x()+Globals.camera.x() < Globals.screenWidth/2-64) Globals.camera.setVX(1);
  			else if(Globals.character.vX() >= 1 && Globals.character.x()+Globals.camera.x() > Globals.screenWidth/2+64) Globals.camera.setVX(-1);
  			else Globals.camera.setVX(0);
     		
-	        //Update stuff
+	        //Update game objects
 	    	Globals.sFade.update(_dt);
 	    	
 	    	if(Globals.character.isRunning()) Globals.camera.setVX(Globals.camera.vX()*(Globals.character.energy()+1));
@@ -257,6 +336,7 @@ public class Game {
 	    	
 	        Globals.character.update(_dt);
 	        Globals.background.update(_dt);
+	        Globals.foreground.update(_dt);
 	        Globals.gui.update(_dt);
 	        Iterator<Snowflake> iterator = Globals.snowflakes.iterator();
 	       	while(iterator.hasNext()){
@@ -266,6 +346,7 @@ public class Game {
 	       			iterator.remove();
 	        }
     	}
+    	Globals.to.update(_dt); //Update text cues even when paused;
     }
     
     //A little fps function taken pretty much directly from the LWJGL timing tutorial

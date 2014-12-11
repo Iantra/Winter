@@ -1,9 +1,5 @@
 package winter;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.newdawn.slick.opengl.Texture;
@@ -65,9 +61,9 @@ public class GameObject {
 	
 	public void render(){
 		if(alpha != 1){
-			FloatBuffer cc = BufferUtils.createFloatBuffer(16);
-			GL11.glGetFloat(GL11.GL_CURRENT_COLOR, cc);
-			GL11.glColor4f(cc.get(), cc.get(), cc.get(), alpha);
+			GL11.glColor4f(Globals.r, Globals.g, Globals.b, alpha);
+		}else{
+			GL11.glColor3f(Globals.r, Globals.g, Globals.b);
 		}
 		float xs = (float)texture.getImageWidth()/(float)texture.getTextureWidth();
 		float ys = (float)texture.getImageHeight()/(float)texture.getTextureHeight();

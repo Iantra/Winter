@@ -16,8 +16,10 @@ import org.newdawn.slick.util.ResourceLoader;
  * Class to store all textures, fonts, and sounds.
  */
 public class Assets {
-	public static Texture[] backgrounds;
+	public static Texture background;
+	public static Texture[] foregrounds;
 	public static Texture[] items;
+	public static Texture[] fires;
 	public static Texture walkingCharImg;
 	public static Texture standingCharImg;
 	public static Texture vignette;
@@ -25,14 +27,17 @@ public class Assets {
 	public static Texture emptyImg;
 	public static Texture snowImg;
 	public static Texture solid;
-	public static TrueTypeFont font;
+	public static TrueTypeFont guiFont;
+	public static TrueTypeFont dispFont;
 	public static Audio[] itemSounds;
 	public static Audio wind;
 	
 	public static void load(){
 		try{
-			backgrounds = new Texture[]{getTexture("bg-1.png"), getTexture("bg-2.png")};
+			background = getTexture("bg.png");
+			foregrounds = new Texture[]{getTexture("fg-1.png"), getTexture("fg-2.png")};
 			items = new Texture[]{ getTexture("stick.png"), getTexture("rock.png"), getTexture("fire.png"), getTexture("axe.png")};
+			fires = new Texture[]{ getTexture("fire1.png"), getTexture("fire2.png"), getTexture("fire3.png")};
 			walkingCharImg = getTexture("char_walking.png");
 			standingCharImg = getTexture("char_standing.png");
 			vignette = getTexture("vignette.png");
@@ -42,8 +47,9 @@ public class Assets {
 			solid = getTexture("solid.png");
 			
 			Font awtFont = new Font("Times New Roman", Font.BOLD, 12);
-	        font = new TrueTypeFont(awtFont, false);
-	        
+	        guiFont = new TrueTypeFont(awtFont, false);
+	        awtFont = new Font("Times New Roman", Font.BOLD, 24);
+	        dispFont = new TrueTypeFont(awtFont, false);
 	        itemSounds = new Audio[]{getAudio("Stick.wav"), getAudio("Rock.wav"), getAudio("Stick.wav"), getAudio("Stick.wav")};
 	        wind = getAudio("Wind.wav");
 	        

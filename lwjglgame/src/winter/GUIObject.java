@@ -16,6 +16,7 @@ public class GUIObject extends GameObject{
 		index = i;
 		clickable = c;
 		reqs = r;
+		setAlpha(1);
 	}
 	
 	public void update(float _dt){

@@ -34,7 +34,7 @@ public class ScreenFade extends GameObject {
 		switch (fadeType){
 		case 1: if(alpha() < 1)setAlpha(alpha() + fSpeed*_dt);
 				break;
-		case 2: if(alpha() > 0)setAlpha(alpha() - fSpeed*_dt);
+		case 2: if(alpha() > 0)setAlpha(alpha() - fSpeed*_dt *alpha());
 				break;
 		default: break;
 		}
