@@ -14,7 +14,7 @@ public class GUI {
 				new GUIObject(32+128, Globals.screenHeight-10, Assets.items[3], 3, false, new int[]{0,0,0,1})
 				};
 		fireCraft = new GUIObject[]{
-				new GUIObject(Globals.screenWidth/2, Globals.screenHeight/2, Assets.items[2], 2, true, new int[]{1,1})
+				new GUIObject(Globals.screenWidth/2, Globals.screenHeight/2, Assets.items[2], 2, true, new int[]{4,2})
 				};
 		/*weaponCraft = new GUIObject[]{
 				new GUIObject(32, Globals.screenHeight-10, Assets.items[0], 0, false, new int[]{1}),
@@ -68,7 +68,7 @@ public class GUI {
 		System.out.println(new GameObject(Mouse.getX(), Globals.screenHeight - Mouse.getY(), 10, 10).y());
 		for(int i = 0; i < fireCraft.length; i++){
 			if(fireCraft[i].clickable() && fireCraft[i].canMake() && fireCraft[i].isColliding(new GameObject(Mouse.getX()/3, Globals.screenHeight - Mouse.getY()/3, 10, 10))){
-				fireCraft[i].click(new int[]{1,1});
+				fireCraft[i].click(new int[]{4,2});
 				Globals.fires.add(new GameObject(Globals.character.x(), Globals.character.y() + 32 + (float)Math.random()*3, Assets.items[2]));
 				Globals.paused = false;
 				Globals.guiState = 1;

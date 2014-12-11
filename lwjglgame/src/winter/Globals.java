@@ -46,7 +46,7 @@ public class Globals {
 	
 	//Simple class that just initializes all the global variables.
 	public static void load(){
-		items = new int[]{10,10,0,0,0};
+		items = new int[]{0,0,0,0,0};
 		fires = new ArrayList<GameObject>();
 		
 		to = new TextObject( 4, "Wake up.");
